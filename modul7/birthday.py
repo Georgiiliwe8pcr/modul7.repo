@@ -4,9 +4,13 @@ from constants import DATE_FORMAT
 
 class Birthday(Field):
     def __init__(self, value: str):
+        # Перевіряємо, чи відповідає вхідний рядок заданому формату
         try:
-            self.value = datetime.strptime(value, DATE_FORMAT)
+            datetime.strptime(value, DATE_FORMAT)
         except ValueError:
             raise ValueError("Invalid date format. Use DD.MM.YYYY")
-def __str__(self):
-    return f"{self.value.strftime(DATE_FORMAT)}"
+        # Якщо рядок валідний, зберігаємо його без перетворення в datetime
+        self.value = value
+
+    def __str__(self):
+        return self.value
