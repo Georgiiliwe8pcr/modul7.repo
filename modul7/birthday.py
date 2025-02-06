@@ -1,20 +1,16 @@
 from datetime import datetime
+from field import Field
 from constants import DATE_FORMAT
 
-def birthdays(contacts):
-    today = datetime.today()
-    for contact in contacts:
-        # Припускаємо, що contact.birthday.value містить рядок у форматі "DD.MM.YYYY"
+class Birthday(Field):
+    def __init__(self, value: str):
+        # Перевіряємо, чи відповідає вхідний рядок формату "DD.MM.YYYY"
         try:
-            bday_date = datetime.strptime(contact.birthday.value, DATE_FORMAT)
+            datetime.strptime(value, DATE_FORMAT)
         except ValueError:
-            print(f"Невірний формат дати для контакту {contact.name}. Пропускаємо.")
-            continue
+            raise ValueError("Invalid date format. Use DD.MM.YYYY")
+        # Якщо рядок валідний, зберігаємо його без перетворення в datetime
+        self.value = value
 
-        # Замінюємо рік на поточний для визначення наступного дня народження
-        next_birthday = bday_date.replace(year=today.year)
-        if next_birthday < today:
-            next_birthday = next_birthday.replace(year=today.year + 1)
-
-        days_left = (next_birthday - today).days
-        print(f"{contact.name}: {days_left} днів до наступного дня народження")
+    def __str__(self):
+        return self.value
