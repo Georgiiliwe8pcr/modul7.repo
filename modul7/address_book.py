@@ -19,25 +19,25 @@ class AddressBook(UserDict):
     def delete(self, name):
         del self.data[name]
     def get_upcoming_birthdays(self):
-        today_date = datetime.today().date()
+        today = datetime.today()           # Получаем текущий datetime
+        today_date = today.date()          # Преобразуем его в объект date
         upcoming_birthdays = []
         for name, record in self.data.items():
             if record.birthday:
-                birthday_date =  datetime.strptime(record.birthday.value, DATE_FORMAT).replace(year=today.year).date()
-                timedelta_days = (birthday_date - today_date).days
-                if 0 <= timedelta_days <= 7:
-                    if is_weekend_day(birthday_date.weekday()):
-                        days_delta = 2 if birthday_date.weekday() == 5 else 1
-                        congratulation_date = birthday_date + timedelta(days=days_delta)
-                    else:
-                        congratulation_date = birthday_date
-                    upcoming_birthdays.append(
-                        {
-                            "name": name,
-                            "congratulation_date": congratulation_date.strftime(
-                                DATE_FORMAT
-                            ),
-                        }
-                    )
-
-        return upcoming_birthdays
+               birthday_date = datetime.strptime(
+                   record.birthday.value, DATE_FORMAT
+               ).replace(year=today.year).date()
+               timedelta_days = (birthday_date - today_date).days
+               if 0 <= timedelta_days <= 7:
+                   if is_weekend_day(birthday_date.weekday()):
+                      days_delta = 2 if birthday_date.weekday() == 5 else 1
+                      congratulation_date = birthday_date + timedelta(days=days_delta)
+                   else:
+                       congratulation_date = birthday_date
+                   upcoming_birthdays.append(
+                       {
+                           "name": name,
+                           "congratulation_date": congratulation_date.strftime(DATE_FORMAT),
+                       }
+                   )
+       return upcoming_birthdays
