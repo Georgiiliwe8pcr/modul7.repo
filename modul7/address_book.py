@@ -23,9 +23,7 @@ class AddressBook(UserDict):
         upcoming_birthdays = []
         for name, record in self.data.items():
             if record.birthday:
-                birthday_date = record.birthday.value.replace(
-                    year=today_date.year
-                ).date()
+                birthday_date =  datetime.strptime(record.birthday.value, DATE_FORMAT).replace(year=today.year).date()
                 timedelta_days = (birthday_date - today_date).days
                 if 0 <= timedelta_days <= 7:
                     if is_weekend_day(birthday_date.weekday()):
