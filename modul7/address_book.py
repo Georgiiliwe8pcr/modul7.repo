@@ -40,4 +40,4 @@ class AddressBook(UserDict):
                            "congratulation_date": congratulation_date.strftime(DATE_FORMAT),
                        }
                    )
-       return upcoming_birthdays
+        return upcoming_birthdays
